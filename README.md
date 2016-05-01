@@ -1,4 +1,4 @@
 # VimBotVS
 BotVS rsync plugin for VIM
 
-# WIP
+# Auto sync when strategy saved
