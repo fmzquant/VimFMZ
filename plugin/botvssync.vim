@@ -76,4 +76,4 @@ EOF
 endfunction
 
 autocmd BufWritePost *.js :call SyncBotVS()
-
+autocmd BufWritePost *.py :call SyncBotVS()
