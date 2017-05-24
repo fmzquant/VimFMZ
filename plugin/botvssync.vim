@@ -12,7 +12,7 @@ function! ShortEcho(msg)
 endfunction
 
 function! SyncBotVS()
-python << EOF
+PyForBotVS << EOF
 import vim
 import sys
 
@@ -75,5 +75,12 @@ EOF
 
 endfunction
 
+if has('python')
+  command! -nargs=* PyForBotVS python <args>
+elseif has('python3')
+  command! -nargs=* PyForBotVS python3 <args>
+endif
+
 autocmd BufWritePost *.js :call SyncBotVS()
 autocmd BufWritePost *.py :call SyncBotVS()
+
