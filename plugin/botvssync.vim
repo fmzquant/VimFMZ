@@ -83,4 +83,4 @@ endif
 
 autocmd BufWritePost *.js :call SyncBotVS()
 autocmd BufWritePost *.py :call SyncBotVS()
-
+autocmd BufWritePost *.cpp :call SyncBotVS()
