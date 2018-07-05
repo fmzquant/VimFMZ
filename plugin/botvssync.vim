@@ -1,5 +1,5 @@
-" Vim sync plugin for BotVS
-" http://www.botvs.com
+" Vim sync plugin for FMZ
+" http://www.fmz.com
 "
 
 function! ShortEcho(msg)
@@ -11,8 +11,8 @@ function! ShortEcho(msg)
   let &shortmess=saved
 endfunction
 
-function! SyncBotVS()
-PyForBotVS << EOF
+function! SyncFMZ()
+PyForFMZ << EOF
 import vim
 import sys
 
@@ -30,7 +30,7 @@ except ImportError:
     from urllib.request import urlopen
     from urllib.parse import urlencode
 __version__ = '0.0.1'
-rsync_url = "https://www.botvs.com/rsync"
+rsync_url = "https://www.fmz.com/rsync"
 
 def SyncFile(filename, token, content):
     success = False
@@ -47,17 +47,17 @@ def SyncFile(filename, token, content):
             if errCode == 405:
                 msg = 'Sorry, ' + resp['user'] + ", sync failed ! Renew the token of [" + resp['name'] + "]"
             elif errCode == 406:
-                msg = 'BotVS plugin for sublime need update ! http://www.botvs.com'
+                msg = 'FMZ plugin for sublime need update ! http://www.fmz.com'
             else:
-                msg = "BotVS sync [" + filename + " ] failed, errCode: %d, May be the token is not correct !" % errCode
+                msg = "FMZ sync [" + filename + " ] failed, errCode: %d, May be the token is not correct !" % errCode
             
     except:
-        msg = str(sys.exc_info()[1]) + ", BotVS sync failed, please retry again !"
+        msg = str(sys.exc_info()[1]) + ", FMZ sync failed, please retry again !"
     vim.command('call ShortEcho("' + msg.replace('"', '\"') +'")')
     return success
 
 cur_buf = vim.current.buffer
-pattern = re.compile(r'botvs@([a-zA-Z0-9]{32})')
+pattern = re.compile(r'fmz@([a-zA-Z0-9]{32})')
 content = []
 token = None
 for line in cur_buf:
@@ -76,11 +76,12 @@ EOF
 endfunction
 
 if has('python')
-  command! -nargs=* PyForBotVS python <args>
+  command! -nargs=* PyForFMZ python <args>
 elseif has('python3')
-  command! -nargs=* PyForBotVS python3 <args>
+  command! -nargs=* PyForFMZ python3 <args>
 endif
 
-autocmd BufWritePost *.js :call SyncBotVS()
-autocmd BufWritePost *.py :call SyncBotVS()
-autocmd BufWritePost *.cpp :call SyncBotVS()
+autocmd BufWritePost *.js :call SyncFMZ()
+autocmd BufWritePost *.py :call SyncFMZ()
+autocmd BufWritePost *.cpp :call SyncFMZ()
+
