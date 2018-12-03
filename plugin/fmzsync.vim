@@ -84,4 +84,5 @@ endif
 autocmd BufWritePost *.js :call SyncFMZ()
 autocmd BufWritePost *.py :call SyncFMZ()
 autocmd BufWritePost *.cpp :call SyncFMZ()
+autocmd BufWritePost *.txt :call SyncFMZ()
 
