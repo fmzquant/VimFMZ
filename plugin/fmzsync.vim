@@ -67,8 +67,7 @@ for line in cur_buf:
 		if match:
 			token = match.group(1)
 			skip = True
-	if not skip:
-		content.append(line)
+	content.append(line if not skip else '')
 if token:
 	SyncFile(vim.eval('bufname("%")'), token, '\n'.join(content))
 EOF
