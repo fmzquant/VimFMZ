@@ -2,6 +2,10 @@
 " http://www.fmz.com
 "
 
+if !exists("g:fmz_async")
+    let g:fmz_async = 0
+endif
+
 function! ShortEcho(msg)
   " regular :echomsg is supposed to shorten long messages when shortmess+=T but it does not.
   " under "norm echomsg", echomsg does shorten long messages.
@@ -21,6 +25,7 @@ socket.setdefaulttimeout(20)
 
 import time, os, re
 import json
+from threading import Thread
 
 try:
     from urllib import urlopen, urlencode
@@ -69,7 +74,13 @@ for line in cur_buf:
 			skip = True
 	content.append(line if not skip else '')
 if token:
-	SyncFile(vim.eval('bufname("%")'), token, '\n'.join(content))
+    if vim.eval('g:fmz_async').strip() == '1':
+        thread = Thread(target=SyncFile,
+                        args=(vim.eval('bufname("%")'), token, '\n'.join(content)))
+        thread.setDaemon(True)
+        thread.start()
+    else:
+        SyncFile(vim.eval('bufname("%")'), token, '\n'.join(content))
 EOF
 
 endfunction
