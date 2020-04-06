@@ -52,7 +52,7 @@ def SyncFile(filename, token, content):
             if errCode == 405:
                 msg = 'Sorry, ' + resp['user'] + ", sync failed ! Renew the token of [" + resp['name'] + "]"
             elif errCode == 406:
-                msg = 'FMZ plugin for sublime need update ! http://www.fmz.com'
+                msg = 'FMZ plugin need update ! http://www.fmz.com'
             else:
                 msg = "FMZ sync [" + filename + " ] failed, errCode: %d, May be the token is not correct !" % errCode
             
