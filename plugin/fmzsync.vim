@@ -85,10 +85,10 @@ EOF
 
 endfunction
 
-if has('python')
-  command! -nargs=* PyForFMZ python <args>
-elseif has('python3')
+if has('python3')
   command! -nargs=* PyForFMZ python3 <args>
+elseif has('python')
+  command! -nargs=* PyForFMZ python <args>
 endif
 
 autocmd BufWritePost *.js :call SyncFMZ()
