@@ -40,7 +40,7 @@ def SyncFile(filename, token, content):
     errCode = 0
     msg = ""
     try:
-        rsync_url = "https://www.fmz.%s/rsync" % ("cn" if token[0] == 'n' else "com", )
+        rsync_url = "https://www.%s/rsync" % ("youquant.com" if token[0] == 'n' else "fmz.com", )
         data = {'token': token, 'method':'push', 'content': content, 'version': __version__, 'client': 'vim'}
         resp = json.loads(urlopen(rsync_url, urlencode(data).encode('utf8')).read().decode('utf8'))
         errCode = resp["code"]
@@ -51,12 +51,12 @@ def SyncFile(filename, token, content):
             if errCode == 405:
                 msg = 'Sorry, ' + resp['user'] + ", sync failed ! Renew the token of [" + resp['name'] + "]"
             elif errCode == 406:
-                msg = 'FMZ plugin need update ! http://www.fmz.com'
+                msg = 'plugin need update !'
             else:
-                msg = "FMZ sync [" + filename + " ] failed, errCode: %d, May be the token is not correct !" % errCode
+                msg = "sync [" + filename + " ] failed, errCode: %d, May be the token is not correct !" % errCode
             
     except:
-        msg = str(sys.exc_info()[1]) + ", FMZ sync failed, please retry again !"
+        msg = str(sys.exc_info()[1]) + ", sync failed, please retry again !"
     vim.command('call ShortEcho("' + msg.replace('"', '\"') +'")')
     return success
 
