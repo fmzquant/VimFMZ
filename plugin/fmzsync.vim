@@ -33,7 +33,7 @@ try:
 except ImportError:
     from urllib.request import urlopen
     from urllib.parse import urlencode
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 def SyncFile(filename, token, content):
     success = False
@@ -57,7 +57,7 @@ def SyncFile(filename, token, content):
             
     except:
         msg = str(sys.exc_info()[1]) + ", sync failed, please retry again !"
-    vim.command('call ShortEcho("' + msg.replace('"', '\"') +'")')
+    vim.command('call ShortEcho("' + msg.replace('\\', '\\\\').replace('"', '\\"') +'")')
     return success
 
 cur_buf = vim.current.buffer
@@ -76,7 +76,7 @@ if token:
     if vim.eval('g:fmz_async').strip() == '1':
         thread = Thread(target=SyncFile,
                         args=(vim.eval('bufname("%")'), token, '\n'.join(content)))
-        thread.setDaemon(True)
+        thread.daemon = True
         thread.start()
     else:
         SyncFile(vim.eval('bufname("%")'), token, '\n'.join(content))
@@ -92,7 +92,7 @@ endif
 
 autocmd BufWritePost *.js :call SyncFMZ()
 autocmd BufWritePost *.py :call SyncFMZ()
-autocmd BufWritePost *.cpp :call SyncFMZ()
+autocmd BufWritePost *.rs :call SyncFMZ()
 autocmd BufWritePost *.txt :call SyncFMZ()
 autocmd BufWritePost *.pine :call SyncFMZ()
 autocmd BufWritePost *.tv :call SyncFMZ()
